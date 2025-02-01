@@ -10,13 +10,14 @@ class FileStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
-        if cls != None:
+        if cls is not None:
             # return the specified class
             self.reload()
             class_list = {}
             for obj in list(FileStorage.__objects.values()):
-                if obj.__class__ == cls:
-                    class_list.update({f'{obj.__class__}.{obj.id}' : obj})
+                if obj.__class__.__name__ == cls:
+                    class_list.update({
+                        f'{obj.__class__.__name__}.{obj.id}': obj})
             return class_list
         else:
             return FileStorage.__objects
@@ -60,7 +61,7 @@ class FileStorage:
 
     def delete(self, obj=None):
         """deletes the pointed object"""
-        if obj != None:
+        if obj is not None:
             self.reload()
             obj_mod = f'{obj.__class__.__name__}.{obj.id}'
             if obj_mod in self.all():
