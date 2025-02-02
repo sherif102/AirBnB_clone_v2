@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ City Module for HBNB project """
-from models.base_model import BaseModel, Base, String, Column, ForeignKey, relationship
+from models.base_model import BaseModel, Base, String
+from models.base_model import Column, ForeignKey, relationship
 from models.state import State
 
 

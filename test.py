@@ -5,11 +5,12 @@ from models.base_model import BaseModel
 from models.engine.db_storage import DBStorage
 from models.state import State
 
-storage = DBStorage()
+st = State(name="Kwara")
+print(st)
 
-states = storage.all()
-print(states)
-print(list(states.values())[0])
-print('***')
-for x in states.values():
-    print(x)
+
+
+# kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
+#                                                      '%Y-%m-%dT%H:%M:%S.%f')
+# kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
+#                                                      '%Y-%m-%dT%H:%M:%S.%f')
