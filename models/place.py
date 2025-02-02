@@ -22,14 +22,14 @@ class Place(BaseModel, Base):
     cities = relationship("City", back_populates="places")
     reviews = relationship("Review", back_populates="place")
 
-    @property
-    def reviews(self):
-        """return the list of review instance linked"""
-        from models import storage
-        from models.review import Review
-        reviews = []
-        all = storage.all(Review)
-        for key, value in all.items():
-            if self.id == value.place_id:
-                reviews.append(value)
-        return reviews
+    # @property
+    # def reviews(self):
+    #     """return the list of review instance linked"""
+    #     from models import storage
+    #     from models.review import Review
+    #     reviews = []
+    #     all = storage.all(Review)
+    #     for key, value in all.items():
+    #         if self.id == value.place_id:
+    #             reviews.append(value)
+    #     return reviews
