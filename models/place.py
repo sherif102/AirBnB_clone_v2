@@ -4,7 +4,7 @@ from models.base_model import BaseModel, Base, Column, String, Integer, Float
 from models.base_model import ForeignKey, relationship
 
 
-class Place(BaseModel):
+class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = 'places'
     city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
