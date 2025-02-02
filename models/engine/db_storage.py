@@ -40,7 +40,7 @@ class DBStorage:
     def all(self, cls=None):
         """query the database for the classname :> table supplied"""
         objects = {}
-        if cls:
+        if cls is not None:
             session = self.__session
             for x in session.query(cls).all():
                 name = x.__class__.__name__
