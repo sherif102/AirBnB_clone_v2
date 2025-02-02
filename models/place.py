@@ -2,6 +2,14 @@
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base, Column, String, Integer, Float
 from models.base_model import ForeignKey, relationship
+from sqlalchemy import Table
+
+metadata = Base.metadata
+place_amenity = Table("place_amenity", metadata,
+                      Column('place_id', String(60),
+                             ForeignKey("places.id"), nullable=False),
+                      Column('amenity_id', String(60),
+                             ForeignKey("amenities.id"), nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -21,3 +29,5 @@ class Place(BaseModel, Base):
     user = relationship("User", back_populates="places")
     cities = relationship("City", back_populates="places")
     reviews = relationship("Review", back_populates="place")
+    amenities = relationship("Amenity", secondary=place_amenity,
+                             viewonly=False, back_populates="place_amenities")
