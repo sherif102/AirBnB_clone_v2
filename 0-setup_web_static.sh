@@ -10,4 +10,4 @@ sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data
 sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
 sudo sed -i '0,/server_name _;/s//&\n   location \/hbnb_static\/ {\n        alias \/data\/web_static\/current\/; \n     }/' /etc/nginx/sites-available/default
-sudo service nginx start
+sudo service nginx restart
