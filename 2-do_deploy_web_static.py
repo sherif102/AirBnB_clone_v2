@@ -29,7 +29,7 @@ def do_deploy(archive_path):
     try:
         put(archive_path, "/tmp/")
         file = archive_path.split('/')[-1]
-        run(f'tar xzvf /tmp/{file} -C /data/web_static/releases/')
+        run(f'tar xzf /tmp/{file} -C /data/web_static/releases/')
         run(f"rm -f /tmp/{file}")
         run("rm -f /data/web_static/current")
         run(f"ln -sf /data/web_static/releases/\
