@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """fabric functions to work with development"""
-from fabric.api import local, run, cd, sudo, put, get, env
+from fabric.api import local, run, cd, sudo, put, lcd, env
 from datetime import datetime
 import os
 
@@ -72,48 +72,20 @@ def deploy():
 def do_clean(number=0):
     """deletes out-of-date archive"""
 
-    with cd("/data/web_static/releases/"):
-        sudo("ls -t > del_files")
+    if int(number) == 0:
+        number = 1
+    else:
+        number = int(number)
 
-        get("/data/web_static/releases/del_files", "./del_files")
+    with cd("/data/web_static/releases"):
+        file_list = sudo("ls -tr").split()
+        file_list = [x for x in file_list if "web_static_" in x]
+        if len(file_list) > 0:
+            [file_list.pop() for i in range(number)]
+            [run("rm -rf ./{}".format(a)) for a in file_list]
 
-        with open('del_files', 'r') as file:
-            list_file = file.read().strip().split('\n')
-            if int(number) < 2:
-                deleter = 1
-            else:
-                deleter = int(number)
 
-            if len(list_file) > deleter:
-                while deleter < len(list_file):
-                    if not os.path.exists(list_file[deleter]):
-                        continue
-                    if not list_file[deleter].endswith('tgz'):
-                        continue
-                    try:
-                        sudo(f"rm -rf {list_file[deleter]}")
-                    except Exception:
-                        sudo(f"rm -f {list_file[deleter]}")
-                    deleter += 1
-
-        sudo("rm -f del_files")
-
-    local("ls -t versions > del_files")
-    with open('del_files', 'r') as file:
-        list_file = file.read().strip().split('\n')
-        if int(number) < 2:
-            deleter = 1
-        else:
-            deleter = int(number)
-
-        if len(list_file) > deleter:
-            while deleter < len(list_file):
-                if not os.path.exists(list_file[deleter]):
-                    continue
-                try:
-                    local(f"rm -f versions/{list_file[deleter]}")
-                except Exception:
-                    local(f"sudo rm -rf versions/{list_file[deleter]}")
-                deleter += 1
-
-    local("sudo rm -f del_files")
+    file_list = sorted(os.listdir("versions"))
+    [file_list.pop() for i in range(number)]
+    if len(file_list) > 0:
+        [local("rm ./versions/{}".format(x)) for x in file_list]
