@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 """fabric functions to work with development"""
-from fabric.api import local, run, put, env
+from fabric.api import local, sudo, put, env
 from datetime import datetime
 import os
 
 
 env.hosts = ['3.94.86.136', '54.227.89.138']
+env.user = "ubuntu"
 
 
 def do_pack():
@@ -28,12 +29,12 @@ def do_deploy(archive_path):
     try:
         put(archive_path, "/tmp/")
         file = archive_path.split('/')[-1]
-        run(f'tar xzf /tmp/{file} -C /data/web_static/releases/')
-        run(f"rm -f /tmp/{file}")
-        run("rm -rf /data/web_static/current")
-        run(f"ln -sf /data/web_static/releases/\
-            {file[:file.index('_', file.index('_') + 1)]}/ \
-             /data/web_static/current")
+        sudo(f'tar xzf /tmp/{file} -C /data/web_static/releases/')
+        sudo(f"rm -f /tmp/{file}")
+        sudo("rm -rf /data/web_static/current")
+        sudo(f"ln -sf /data/web_static/releases/"
+             f"{file[:file.index('_', file.index('_') + 1)]}"
+             f" /data/web_static/current")
         return True
     except Exception:
         return False
