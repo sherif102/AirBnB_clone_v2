@@ -6,7 +6,6 @@ import os
 
 
 env.hosts = ['3.94.86.136', '54.227.89.138']
-env.user = 'ubuntu'
 
 
 def do_pack():
@@ -31,9 +30,9 @@ def do_deploy(archive_path):
         file = archive_path.split('/')[-1]
         run(f'tar xzf /tmp/{file} -C /data/web_static/releases/')
         run(f"rm -f /tmp/{file}")
-        run("rm -f /data/web_static/current")
+        run("rm -rf /data/web_static/current")
         run(f"ln -sf /data/web_static/releases/\
-            {file[:file.index('_', file.index('_') + 1)]} \
+            {file[:file.index('_', file.index('_') + 1)]}/ \
              /data/web_static/current")
         return True
     except Exception:

@@ -1,11 +1,40 @@
 #!/usr/bin/python3
+"""fabric functions to work with development"""
+from fabric.api import local, run, put, env
+from datetime import datetime
+import os
 
 
-def do_deploy(filing="/home/sheriff/versions/web_static_20170315003959.tgz"):
+# env.hosts = ['3.94.86.136', '54.227.89.138']
+# env.user = 'ubuntu'
+
+
+def do_pack():
+    """generate archive file .tgz"""
+    try:
+        local("mkdir -p versions")
+        time = datetime.now().strftime("%Y%m%d%H%M%S")
+        file_name = f'versions/web_static_{time}.tgz'
+        local(f"tar cvfz {file_name} web_static")
+        return file_name
+    except Exception:
+        return None
+
+
+def do_deploy(archive_path):
     """deploy file to web servers"""
+    if not os.path.exists(archive_path):
+        return False
 
-    file = filing.split('/')[-1]
-    print(file)
-    print(file[:file.index('_', file.index('_') + 1)])
-
-do_deploy()
+    try:
+        put(archive_path, "/tmp/")
+        file = archive_path.split('/')[-1]
+        local(f'tar xzf /tmp/{file} -C /data/web_static/releases/')
+        local(f"rm -f /tmp/{file}")
+        local("rm -f /data/web_static/current")
+        local(f"ln -sf /data/web_static/releases/\
+            {file[:file.index('_', file.index('_') + 1)]} \
+             /data/web_static/current")
+        return True
+    except Exception:
+        return False
