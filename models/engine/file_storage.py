@@ -65,3 +65,8 @@ class FileStorage:
             if obj_mod in self.all():
                 del self.all()[obj_mod]
         self.save()
+
+    def close(self):
+        """reloads data for deserialization"""
+        self.reload()
+    
