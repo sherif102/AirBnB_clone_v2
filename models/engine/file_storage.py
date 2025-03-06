@@ -69,4 +69,3 @@ class FileStorage:
     def close(self):
         """reloads data for deserialization"""
         self.reload()
-    
