@@ -16,10 +16,9 @@ def close_connection(self):
 @app.route("/states_list", strict_slashes=False)
 def states_list():
     """return states list"""
-    state_list = storage.all()
-    names = [{'id':'3', 'name':'taye'}, {'id':'2', 'name':'idowu'}, {'id':'1', 'name':'alaba'}, {'id':'4', 'name':'kehinde'}]
+    state_list = storage.all(State).values()
 
-    return render_template("7-states_list.html", context=state_list)
+    return render_template("7-states_list.html", states=state_list)
 
 
 if __name__ == "__main__":
