@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBNB</title>
+</head>
+<BODY>
+    <H1>States</H1>
+    <UL>
+        {% for key, value in context.items() %}
+        <LI>{{ key }}: <B>{{ value }}</B></LI>
+        {% endfor %}
+    </UL>
+</BODY>
+</html>
