@@ -8,10 +8,11 @@ from models import storage, State
 
 app = Flask(__name__)
 
+
 @app.teardown_appcontext
-def close_connection(self):
-    """close connection"""
+def teardown(exception=None):
     storage.close()
+
 
 @app.route("/states_list", strict_slashes=False)
 def states_list():
