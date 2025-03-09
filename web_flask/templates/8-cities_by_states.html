@@ -6,6 +6,7 @@
     <title>HBNB</title>
 </head>
 <BODY>
+    {% if states %}
     <H1>States</H1>
     <UL>
         {% for state in states|sort(attribute='name') %}
@@ -17,5 +18,6 @@
         </UL>
         {% endfor %}
     </UL>
+    {% endif %}
 </BODY>
 </html>
